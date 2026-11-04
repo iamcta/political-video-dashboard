@@ -292,6 +292,28 @@ style.textContent = `
 
 document.head.appendChild(style);
 
+/* Extra viewpoint matches extend beyond five columns. */
+style.textContent += `
+  .spectrum-row.spectrum-expanded {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+  }
+
+  .spectrum-row.spectrum-expanded .spectrum-slot {
+    flex: 0 0 max(190px, calc((100% - 48px) / 5));
+    scroll-snap-align: center;
+  }
+
+  .spectrum-row.spectrum-expanded
+  .spectrum-slot[data-band="Center"] {
+    order: 0;
+  }
+`;
+
 // --------------------------------------------------
 // VIDEO NAVIGATION
 // --------------------------------------------------
@@ -986,10 +1008,23 @@ function makeSlot(band, entry, label = "") {
   return slot;
 }
 
-function appendBoardRow(slots, isDiscovery = false) {
+
+function appendBoardRow(
+  slots,
+  isDiscovery = false,
+  leftExtras = [],
+  rightExtras = []
+) {
   const row = document.createElement("section");
   row.className = "spectrum-row" +
     (isDiscovery ? " spectrum-discovery" : "");
+
+  const expanded =
+    leftExtras.length > 0 || rightExtras.length > 0;
+
+  if (expanded) {
+    row.classList.add("spectrum-expanded");
+  }
 
   row.setAttribute(
     "aria-label",
@@ -998,20 +1033,47 @@ function appendBoardRow(slots, isDiscovery = false) {
       : "Possible views on the same story"
   );
 
-  BANDS.forEach((band, i) => {
-    const label = isDiscovery
-      ? "Discovery"
-      : i === 2
-        ? "Center anchor"
-        : "Possible topic match";
+  // Additional Far-Left videos extend OUTWARD
+  // from the leftmost original column.
+  const cells = leftExtras.slice().reverse().map(entry => ({
+    band: "Far-Left",
+    entry,
+    label: "Additional topic match"
+  }));
 
-    row.appendChild(makeSlot(band, slots[i], label));
+  // Always preserve the five original columns.
+  BANDS.forEach((band, i) => {
+    cells.push({
+      band,
+      entry: slots[i],
+      label: isDiscovery
+        ? "Discovery"
+        : i === 2
+          ? "Center anchor"
+          : "Possible topic match"
+    });
+  });
+
+  // Additional Far-Right videos extend OUTWARD
+  // from the rightmost original column.
+  rightExtras.forEach(entry => {
+    cells.push({
+      band: "Far-Right",
+      entry,
+      label: "Additional topic match"
+    });
+  });
+
+  cells.forEach(cell => {
+    row.appendChild(
+      makeSlot(cell.band, cell.entry, cell.label)
+    );
   });
 
   gallery.appendChild(row);
 
-  // Navigation starts with the center, followed by
-  // nearby perspectives, then the outer columns.
+  // Preserve keyboard navigation through
+  // every matched video, including extra cards.
   const sequence = isDiscovery
     ? [0, 1, 2, 3, 4]
     : [2, 1, 3, 0, 4];
@@ -1021,7 +1083,34 @@ function appendBoardRow(slots, isDiscovery = false) {
       boardOrder.push(slots[i].index);
     }
   }
+
+  [...leftExtras, ...rightExtras].forEach(entry => {
+    boardOrder.push(entry.index);
+  });
+
+  // Keep the Center anchor visible initially.
+  if (expanded) {
+    requestAnimationFrame(() => {
+      if (!row.isConnected) return;
+
+      const center = row.querySelector(
+        '.spectrum-slot[data-band="Center"]'
+      );
+
+      if (!center) return;
+
+      const rowRect = row.getBoundingClientRect();
+      const centerRect = center.getBoundingClientRect();
+
+      row.scrollLeft +=
+        centerRect.left +
+        centerRect.width / 2 -
+        rowRect.left -
+        rowRect.width / 2;
+    });
+  }
 }
+
 
 // --------------------------------------------------
 // RENDER THE BOARD
@@ -1146,7 +1235,40 @@ function renderGallery() {
       }
     });
 
-    appendBoardRow(slots);
+    
+// Gather additional matching videos from either extreme.
+// A video already assigned to a row cannot be reused.
+
+function collectExtraMatches(band) {
+  const extras = [];
+
+  while (true) {
+    const match = pickMatch(
+      anchor,
+      band,
+      entries,
+      used
+    );
+
+    if (!match) break;
+
+    used.add(match.index);
+    extras.push(match);
+  }
+
+  return extras;
+}
+
+const leftExtras = collectExtraMatches("Far-Left");
+const rightExtras = collectExtraMatches("Far-Right");
+
+appendBoardRow(
+  slots,
+  false,
+  leftExtras,
+  rightExtras
+);
+
 
     // After three comparison rows, add one row
     // of random, not necessarily related videos.
