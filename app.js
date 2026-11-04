@@ -781,7 +781,7 @@ const NOUN_ALIASES = {
   // People
   donald: "trump",
   zelenskyy: "zelensky",
-  ocasio-cortez: "ocasio",
+"ocasio-cortez": "ocasio",
   aoc: "ocasio"
 };
 
@@ -935,6 +935,69 @@ function matchingScore(first, second) {
   }
 
   return matches;
+}
+
+/* ==========================================
+   FIND BEST MATCHING VIDEO
+   ========================================== */
+
+function pickMatch(anchor, band, entries, used) {
+  let best = null;
+  let bestScore = 0;
+  let bestGap = Infinity;
+
+  const anchorDate = videoDate(anchor.video);
+  const maxGap = 7 * 24 * 60 * 60 * 1000;
+
+  for (const entry of entries) {
+
+    // Do not match the anchor or a video already used.
+    if (
+      entry.index === anchor.index ||
+      used.has(entry.index)
+    ) {
+      continue;
+    }
+
+    // Only consider the requested viewpoint column.
+    if (bandFor(entry.video) !== band) {
+      continue;
+    }
+
+    const candidateDate = videoDate(entry.video);
+
+    const gap = anchorDate && candidateDate
+      ? Math.abs(anchorDate - candidateDate)
+      : Infinity;
+
+    // Require dates within seven days.
+    if (gap > maxGap) {
+      continue;
+    }
+
+    // Compare recognized news nouns.
+    const score = matchingScore(
+      anchor.video,
+      entry.video
+    );
+
+    // One shared noun qualifies.
+    // Prefer more shared nouns, then closer dates.
+    if (
+      score > bestScore ||
+      (
+        score > 0 &&
+        score === bestScore &&
+        gap < bestGap
+      )
+    ) {
+      best = entry;
+      bestScore = score;
+      bestGap = gap;
+    }
+  }
+
+  return best;
 }
 
 // --------------------------------------------------
