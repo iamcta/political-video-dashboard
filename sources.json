@@ -1,10 +1,51 @@
 
 [
   {
+    "name": "MSNBC / MS NOW",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHaXkIU1QidjPwiAYu6GcHjg",
+    "category": "Left",
+    "group": "News",
+    "enabled": true
+  },
+  {
     "name": "Democracy Now!",
     "platform": "youtube",
     "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHzuqE7-t13O4NIDYJfakrhw",
     "category": "Left",
+    "group": "News",
+    "enabled": true
+  },
+  {
+    "name": "Vox",
+    "platform": "youtube",
+    "feed_url": null,
+    "category": "Left",
+    "group": "News",
+    "enabled": false
+  },
+  {
+    "name": "Mother Jones",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHbWB33FQvFiV0Pq9Calkgzw",
+    "category": "Left",
+    "group": "News",
+    "enabled": true
+  },
+  {
+    "name": "HuffPost",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHZfsrIV68Oegr5bJgAMLBDA",
+    "category": "Left",
+    "group": "News",
+    "enabled": true
+  },
+  {
+    "name": "CNN (Web News)",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHupvZG-5ko_eiXAupbDfxWw",
+    "category": "Center-Left",
+    "group": "News",
     "enabled": true
   },
   {
@@ -12,6 +53,31 @@
     "platform": "youtube",
     "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHBi2mrWuNuyYy4gbM6fU18Q",
     "category": "Center-Left",
+    "group": "News",
+    "enabled": true
+  },
+  {
+    "name": "CBS News",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSH8p1vwvWtl6T73JiExfWs1g",
+    "category": "Center-Left",
+    "group": "News",
+    "enabled": true
+  },
+  {
+    "name": "NBC News",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHeY0bbntWzzVIaj2z3QigXg",
+    "category": "Center-Left",
+    "group": "News",
+    "enabled": true
+  },
+  {
+    "name": "The Guardian",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHHpw8xwDNhU9gdohEcJu4aA",
+    "category": "Center-Left",
+    "group": "News",
     "enabled": true
   },
   {
@@ -19,6 +85,47 @@
     "platform": "youtube",
     "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSH6ZFN9Tx6xh-skXCuRHCDpQ",
     "category": "Center",
+    "group": "News",
+    "enabled": true
+  },
+  {
+    "name": "Reuters",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHhqUTb7kYRX8-EiaN3XFrSQ",
+    "category": "Center",
+    "group": "News",
+    "enabled": true
+  },
+  {
+    "name": "Associated Press",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSH52X5wxOL_s5yw0dQk7NtgA",
+    "category": "Center",
+    "group": "News",
+    "enabled": true
+  },
+  {
+    "name": "BBC News",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSH16niRr50-MSBwiO3YDb3RA",
+    "category": "Center",
+    "group": "News",
+    "enabled": true
+  },
+  {
+    "name": "The Hill",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHPWXiRWZ29zrxPFIQT7eHSA",
+    "category": "Center",
+    "group": "News",
+    "enabled": true
+  },
+  {
+    "name": "Fox Online News / Fox News",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHXIJgqnII2ZOINSWNOGFThA",
+    "category": "Center-Right",
+    "group": "News",
     "enabled": true
   },
   {
@@ -26,6 +133,31 @@
     "platform": "youtube",
     "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSH8BxSGcBKriJvoeyKOnJ6tA",
     "category": "Center-Right",
+    "group": "News",
+    "enabled": true
+  },
+  {
+    "name": "Washington Times",
+    "platform": "youtube",
+    "feed_url": null,
+    "category": "Center-Right",
+    "group": "News",
+    "enabled": false
+  },
+  {
+    "name": "Reason",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSH0uVZd8N7FfIZnPu0y7o95A",
+    "category": "Center-Right",
+    "group": "News",
+    "enabled": true
+  },
+  {
+    "name": "The Telegraph (UK)",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHPgLNge0xqQHWM5B5EFH9Cg",
+    "category": "Center-Right",
+    "group": "News",
     "enabled": true
   },
   {
@@ -33,6 +165,175 @@
     "platform": "youtube",
     "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHaeO5vkdj5xOQHp4UmIN6dw",
     "category": "Right",
+    "group": "News",
     "enabled": true
+  },
+  {
+    "name": "Newsmax",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHx6h-dWzJ5NpAlja1YsApdg",
+    "category": "Right",
+    "group": "News",
+    "enabled": true
+  },
+  {
+    "name": "Breitbart News",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHmgnsaQIK1IR808Ebde-ssA",
+    "category": "Right",
+    "group": "News",
+    "enabled": true
+  },
+  {
+    "name": "TheBlaze / BlazeTV",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHKgJEs_v0JB-6jWb8lIy9Xw",
+    "category": "Right",
+    "group": "News",
+    "enabled": true
+  },
+  {
+    "name": "The Daily Caller",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHfDdlNLRVb1h3_7Xh-WhL3w",
+    "category": "Right",
+    "group": "News",
+    "enabled": true
+  },
+  {
+    "name": "Tim Pool (Timcast)",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHG749Dj4V2fKa143f8sE60Q",
+    "category": "Far-Right",
+    "group": "Commentator",
+    "enabled": true
+  },
+  {
+    "name": "Steven Crowder",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHIveFvW-ARp_B_RckhweNJw",
+    "category": "Far-Right",
+    "group": "Commentator",
+    "enabled": true
+  },
+  {
+    "name": "The Rubin Report",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHJdKr0Bgd_5saZYqLCa9mng",
+    "category": "Far-Right",
+    "group": "Commentator",
+    "enabled": true
+  },
+  {
+    "name": "Candace Owens",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHL0u5uz7KZ9q-pe-VC8TY-w",
+    "category": "Far-Right",
+    "group": "Commentator",
+    "enabled": true
+  },
+  {
+    "name": "Benny Johnson",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHLdP3jmBYe9lAZQbY6OSYjw",
+    "category": "Far-Right",
+    "group": "Commentator / Meme",
+    "enabled": true
+  },
+  {
+    "name": "HasanAbi",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHtoaZpBnrd0lhycxYJ4MNOQ",
+    "category": "Far-Left",
+    "group": "Commentator / Meme",
+    "enabled": true
+  },
+  {
+    "name": "The Majority Report w/ Sam Seder",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSH-3jIAlnQmbbVMV6gR7K8aQ",
+    "category": "Far-Left",
+    "group": "Commentator / Meme",
+    "enabled": true
+  },
+  {
+    "name": "BadEmpanada",
+    "platform": "youtube",
+    "feed_url": null,
+    "category": "Far-Left",
+    "group": "Commentator",
+    "enabled": false
+  },
+  {
+    "name": "Secular Talk / Kyle Kulinski",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHldfgbzNILYZA4dmDt4Cd6A",
+    "category": "Far-Left",
+    "group": "Commentator",
+    "enabled": true
+  },
+  {
+    "name": "The Vanguard",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSH98DCNPM9B3ZP4TiDANonIA",
+    "category": "Far-Left",
+    "group": "Commentator",
+    "enabled": true
+  },
+  {
+    "name": "The Quartering",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHfwE_ODI1YTbdjkzuSi1Nag",
+    "category": "Far-Right",
+    "group": "Meme / Satire",
+    "enabled": true
+  },
+  {
+    "name": "FreedomToons",
+    "platform": "youtube",
+    "feed_url": null,
+    "category": "Far-Right",
+    "group": "Meme / Satire",
+    "enabled": false
+  },
+  {
+    "name": "Mark Dice",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHzUV5283-l5c0oKRtyenj6Q",
+    "category": "Far-Right",
+    "group": "Meme / Satire",
+    "enabled": true
+  },
+  {
+    "name": "Michael Knowles",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHr4kgAUTFkGIwlWSodg43QA",
+    "category": "Far-Right",
+    "group": "Meme / Satire",
+    "enabled": true
+  },
+  {
+    "name": "Vaush Pit",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHdUD6racxisHiSX9iWFcuug",
+    "category": "Far-Left",
+    "group": "Meme / Satire",
+    "enabled": true
+  },
+  {
+    "name": "Adam Mockler",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSH8DA4o0SyaGfyVaBLbF5EXg",
+    "category": "Far-Left",
+    "group": "Meme / Satire",
+    "enabled": true
+  },
+  {
+    "name": "The Serfs",
+    "platform": "youtube",
+    "feed_url": null,
+    "category": "Far-Left",
+    "group": "Meme / Satire",
+    "enabled": false
   }
 ]
