@@ -1133,6 +1133,71 @@ function appendBoardRow(
     );
   });
 
+
+  // ------------------------------------------
+  // TOPIC HEADING FOR EACH COMPARISON ROW
+  // ------------------------------------------
+
+  if (!isDiscovery && slots[2]) {
+    const anchor = slots[2];
+
+    // News nouns from the Center anchor.
+    const anchorNouns = keywords(anchor.video.title);
+    const anchorSet = new Set(anchorNouns);
+
+    // Gather every matching viewpoint, including
+    // additional cards extending to either side.
+    const comparisonVideos = [
+      ...slots.filter((entry, index) => index !== 2 && entry),
+      ...leftExtras,
+      ...rightExtras
+    ];
+
+    const sharedNouns = new Set();
+
+    for (const entry of comparisonVideos) {
+      const candidateNouns = keywords(entry.video.title);
+
+      for (const noun of candidateNouns) {
+        if (anchorSet.has(noun)) {
+          sharedNouns.add(noun);
+        }
+      }
+    }
+
+    // Convert a keyword to a readable label.
+    const formatNoun = noun =>
+      noun.charAt(0).toUpperCase() + noun.slice(1);
+
+    let headingText;
+
+    if (sharedNouns.size > 0) {
+      const terms = [...sharedNouns]
+        .map(formatNoun)
+        .join(" · ");
+
+      headingText = `Possible topic match: ${terms}`;
+    } else {
+      const terms = anchorNouns
+        .slice(0, 3)
+        .map(formatNoun)
+        .join(" · ");
+
+      headingText = terms
+        ? `Center topic: ${terms} · Awaiting matches`
+        : "Center story · Awaiting matches";
+    }
+
+    const heading = makeText(
+      "div",
+      headingText,
+      "spectrum-section"
+    );
+
+    gallery.appendChild(heading);
+  }
+
+  // Display the five-column row and any extra cards.
   gallery.appendChild(row);
 
   // Preserve keyboard navigation through
