@@ -1,10 +1,38 @@
 
 [
   {
+    "name": "Democracy Now!",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHzuqE7-t13O4NIDYJfakrhw",
+    "category": "Left",
+    "enabled": true
+  },
+  {
+    "name": "ABC News",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHBi2mrWuNuyYy4gbM6fU18Q",
+    "category": "Center-Left",
+    "enabled": true
+  },
+  {
     "name": "PBS NewsHour",
     "platform": "youtube",
     "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSH6ZFN9Tx6xh-skXCuRHCDpQ",
-    "category": "Unclassified",
+    "category": "Center",
+    "enabled": true
+  },
+  {
+    "name": "Washington Examiner",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSH8BxSGcBKriJvoeyKOnJ6tA",
+    "category": "Center-Right",
+    "enabled": true
+  },
+  {
+    "name": "The Daily Wire",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHaeO5vkdj5xOQHp4UmIN6dw",
+    "category": "Right",
     "enabled": true
   }
 ]
