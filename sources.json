@@ -335,5 +335,266 @@
     "category": "Far-Left",
     "group": "Meme / Satire",
     "enabled": false
-  }
+  },
+  {
+  "name": "The Daily Show",
+  "platform": "youtube",
+  "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHwWhs_6x42TyRM4Wstoq8HA",
+  "category": "Left",
+  "group": "Political Comedy",
+  "enabled": true
+},
+{
+  "name": "Last Week Tonight with John Oliver",
+  "platform": "youtube",
+  "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSH3XTzVzaHQEd30rQbuvCtTQ",
+  "category": "Left",
+  "group": "Political Comedy",
+  "enabled": true
+},
+{
+  "name": "Late Night with Seth Meyers",
+  "platform": "youtube",
+  "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHVTyTA7-g9nopHeHbeuvpRA",
+  "category": "Left",
+  "group": "Political Comedy",
+  "enabled": true
+},
+{
+  "name": "The Late Show with Stephen Colbert",
+  "platform": "youtube",
+  "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHMtFAi84ehTSYSE9XoHefig",
+  "category": "Left",
+  "group": "Political Comedy",
+  "enabled": true
+},
+{
+  "name": "Trevor Noah",
+  "platform": "youtube",
+  "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSH8bTQzxgvKkXDAaWkeuUlkg",
+  "category": "Center-Left",
+  "group": "Political Comedy",
+  "enabled": true
+},
+{
+  "name": "Some More News",
+  "platform": "youtube",
+  "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHvlj0IzjSnNoduQF0l3VGng",
+  "category": "Left",
+  "group": "Political Comedy",
+  "enabled": true
+},
+{
+  "name": "The Onion",
+  "platform": "youtube",
+  "feed_url": null,
+  "category": "Unclassified",
+  "group": "News Satire",
+  "enabled": false
+},
+{
+  "name": "The Juice Media",
+  "platform": "youtube",
+  "feed_url": null,
+  "category": "Left",
+  "group": "Political Satire",
+  "enabled": false
+},
+{
+  "name": "The Babylon Bee",
+  "platform": "youtube",
+  "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHyl5V3-J_Bsy3x-EBCJwepg",
+  "category": "Right",
+  "group": "News Satire",
+  "enabled": true
+},
+{
+  "name": "AwakenWithJP",
+  "platform": "youtube",
+  "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHwUizOU8pPWXdXNniXypQEQ",
+  "category": "Right",
+  "group": "Political Comedy",
+  "enabled": true
+},
+{
+  "name": "Brett Cooper",
+  "platform": "youtube",
+  "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHdFcGPb4xQ6X4QOoRU6ROYw",
+  "category": "Right",
+  "group": "Culture War Commentary",
+  "enabled": true
+},
+{
+  "name": "Conservative Twins",
+  "platform": "youtube",
+  "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHFfD9fWqkT4PNy7v6r8ilmg",
+  "category": "Right",
+  "group": "Political Comedy",
+  "enabled": true
+},
+{
+  "name": "Derek O'Shea Show",
+  "platform": "youtube",
+  "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHJFhNU5JWeRIpqTJ3EIeI6Q",
+  "category": "Right",
+  "group": "Political Comedy",
+  "enabled": true
+},
+{
+  "name": "Ryan Long",
+  "platform": "youtube",
+  "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHzKFvBRI6VT3jYJq6a820nA",
+  "category": "Unclassified",
+  "group": "Political Satire",
+  "enabled": true
+},
+{
+  "name": "The United Spot",
+  "platform": "youtube",
+  "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHWj9zYsPkotQFSJNK4g4vnQ",
+  "category": "Unclassified",
+  "group": "Political Memes",
+  "enabled": true
+},
+{
+  "name": "GovLMAO",
+  "platform": "youtube",
+  "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSH34YdLLzemxKiTLh_8SNeMQ",
+  "category": "Unclassified",
+  "group": "Political Memes",
+  "enabled": true
+},
+{
+  "name": "JustKiddingNews",
+  "platform": "youtube",
+  "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHfPhyExfcaqJBKc3HO3cNBw",
+  "category": "Unclassified",
+  "group": "Comedy Commentary",
+  "enabled": true
+},
+{
+  "name": "FLAGRANT",
+  "platform": "youtube",
+  "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSH5PstSsGrRwj2o6asQpC4Rg",
+  "category": "Unclassified",
+  "group": "Culture War Comedy",
+  "enabled": true
+},
+{
+  "name": "Pacifier Politics",
+  "platform": "youtube",
+  "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHj06F5M0-4YhPl8Ol_9KUCw",
+  "category": "Unclassified",
+  "group": "Political Parody",
+  "enabled": true
+},
+
+{
+  "name": "Breaking Points",
+  "platform": "youtube",
+  "feed_url": "https://www.youtube.com/feeds/videos.xml?playlist_id=UUSHRIjKy6eZOvKtOELtTdeUA",
+  "category": "Unclassified",
+  "group": "Independent Political Commentary",
+  "enabled": true
+},
+{
+  "name": "Nick Freitas",
+  "platform": "youtube",
+  "feed_url": null,
+  "category": "Right",
+  "group": "Independent Political Commentary",
+  "enabled": false
+},
+{
+  "name": "Advisory Opinions with David French",
+  "platform": "youtube",
+  "feed_url": null,
+  "category": "Center-Right",
+  "group": "Legal and Political Commentary",
+  "enabled": false
+},
+{
+  "name": "The Megyn Kelly Show",
+  "platform": "youtube",
+  "feed_url": null,
+  "category": "Right",
+  "group": "Political Podcast",
+  "enabled": false
+},
+{
+  "name": "The Ben Shapiro Show",
+  "platform": "youtube",
+  "feed_url": null,
+  "category": "Right",
+  "group": "Political Podcast",
+  "enabled": false
+},
+{
+  "name": "Pod Save America",
+  "platform": "youtube",
+  "feed_url": null,
+  "category": "Left",
+  "group": "Political Podcast",
+  "enabled": false
+},
+{
+  "name": "The Tucker Carlson Show",
+  "platform": "youtube",
+  "feed_url": null,
+  "category": "Right",
+  "group": "Political Podcast",
+  "enabled": false
+},
+{
+  "name": "The MeidasTouch Podcast",
+  "platform": "youtube",
+  "feed_url": null,
+  "category": "Left",
+  "group": "Political Podcast",
+  "enabled": false
+},
+{
+  "name": "The Glenn Beck Program",
+  "platform": "youtube",
+  "feed_url": null,
+  "category": "Right",
+  "group": "Political Podcast",
+  "enabled": false
+},
+{
+  "name": "The Charlie Kirk Show",
+  "platform": "youtube",
+  "feed_url": null,
+  "category": "Right",
+  "group": "Political Podcast Archive",
+  "enabled": false
+},
+{
+  "name": "The Rest Is Politics US",
+  "platform": "youtube",
+  "feed_url": null,
+  "category": "Unclassified",
+  "group": "Political Podcast",
+  "enabled": false
+},
+{
+  "name": "Real Time with Bill Maher",
+  "platform": "youtube",
+  "feed_url": null,
+  "category": "Unclassified",
+  "group": "Political Comedy and Commentary",
+  "enabled": false
+},
+{
+  "name": "Hacks On Tap",
+  "platform": "youtube",
+  "feed_url": null,
+  "category": "Unclassified",
+  "group": "Political Podcast",
+  "enabled": false
+}
+
+
+  
+  
 ]
