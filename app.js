@@ -438,9 +438,16 @@ function makeCard(video, index, matchLabel = "") {
   content.appendChild(heading);
 
   const date = videoDate(video);
+
   const dateText = date
-    ? new Date(date).toLocaleDateString()
-    : "Date unknown";
+  ? new Date(date).toLocaleString(undefined, {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit"
+    })
+  : "Date unknown";
 
   content.appendChild(makeText(
     "div",
@@ -450,7 +457,20 @@ function makeCard(video, index, matchLabel = "") {
   ));
 
   card.append(link, content);
-  return card;
+
+// Publication-age indicator
+if (date) {
+  const ageBadge = document.createElement("span");
+
+  ageBadge.className = "spectrum-age";
+  ageBadge.dataset.publishedAt = String(date);
+  ageBadge.textContent = relativePublished(date);
+  ageBadge.title = "Time since video publication";
+
+  link.appendChild(ageBadge);
+}
+
+return card;
 }
 
 // --------------------------------------------------
@@ -1109,4 +1129,84 @@ async function loadVideos() {
 }
 
 loadVideos();
+
+
+/* ==========================================
+   SPECTRUM PUBLICATION TIME
+   ========================================== */
+
+// Calculate how long ago a video was published.
+
+function relativePublished(timestamp) {
+  const minutes = Math.max(
+    0,
+    Math.floor((Date.now() - timestamp) / 60000)
+  );
+
+  if (minutes < 1) {
+    return "Just published";
+  }
+
+  if (minutes < 60) {
+    return `${minutes} min ago`;
+  }
+
+  if (minutes < 1440) {
+    const hours = Math.floor(minutes / 60);
+    const remaining = minutes % 60;
+
+    return remaining
+      ? `${hours}h ${remaining}m ago`
+      : `${hours}h ago`;
+  }
+
+  const days = Math.floor(minutes / 1440);
+
+  return `${days}d ago`;
+}
+
+// Update the age badges without rebuilding cards.
+// This avoids interrupting any playing video.
+
+function updatePublishedAges() {
+  document.querySelectorAll(".spectrum-age")
+    .forEach(badge => {
+      const timestamp = Number(
+        badge.dataset.publishedAt
+      );
+
+      if (Number.isFinite(timestamp) && timestamp > 0) {
+        badge.textContent = relativePublished(timestamp);
+      }
+    });
+}
+
+// Refresh every minute.
+
+setInterval(updatePublishedAges, 60000);
+
+// Publication-age badge styling.
+
+style.textContent += `
+  .spectrum-age {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    z-index: 2;
+
+    display: inline-block;
+    background: rgba(20, 30, 42, 0.92);
+    color: white;
+
+    padding: 6px 9px;
+    border-radius: 6px;
+
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+
+    pointer-events: none;
+  }
+`;
 
