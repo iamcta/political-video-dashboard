@@ -1,0 +1,10 @@
+
+[
+  {
+    "name": "PBS NewsHour",
+    "platform": "youtube",
+    "feed_url": "https://www.youtube.com/feeds/videos.xml?channel_id=UC6ZFN9Tx6xh-skXCuRHCDpQ",
+    "category": "Unclassified",
+    "enabled": true
+  }
+]
