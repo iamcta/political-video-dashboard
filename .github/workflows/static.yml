@@ -37,7 +37,7 @@ jobs:
       - name: Prepare website
         run: |
           mkdir -p _site
-          cp index.html videos.json _site/
+          cp index.html videos.json app.js _site/
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
