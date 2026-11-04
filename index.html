@@ -5,6 +5,54 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Spectrum | Independent Video Reader</title>
+  
+/* Click-to-play video cards */
+.thumbnail {
+  position: relative;
+  cursor: pointer;
+}
+
+.thumbnail::after {
+  content: "▶";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  font-size: 23px;
+  pointer-events: none;
+}
+
+.thumbnail:hover::after {
+  background: #c52232;
+}
+
+.spectrum-player {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 9 / 12;
+  border: 0;
+  background: #000;
+}
+
+@media (max-width: 600px) {
+  .card:has(.spectrum-player) {
+    grid-column: 1 / -1;
+    max-width: 350px;
+  }
+
+  .spectrum-player {
+    aspect-ratio: 9 / 13;
+  }
+}
+
 <style>
 :root {
   font-family: system-ui, -apple-system, sans-serif;
@@ -278,5 +326,53 @@ async function loadVideos() {
 
 loadVideos();
 </script>
+  
+<script>
+/* Play YouTube videos directly inside the gallery */
+
+document.getElementById("gallery").addEventListener("click", function(event) {
+  const thumbnail = event.target.closest("a.thumbnail");
+
+  if (!thumbnail) return;
+
+  let videoId;
+
+  try {
+    const url = new URL(thumbnail.href);
+
+    if (["www.youtube.com", "youtube.com", "m.youtube.com"].includes(url.hostname)) {
+      videoId = url.searchParams.get("v");
+    } else if (url.hostname === "youtu.be") {
+      videoId = url.pathname.slice(1);
+    } else {
+      return;
+    }
+  } catch {
+    return;
+  }
+
+  if (!videoId || !/^[A-Za-z0-9_-]{11}$/.test(videoId)) {
+    return;
+  }
+
+  event.preventDefault();
+
+  const player = document.createElement("iframe");
+
+  player.className = "spectrum-player";
+  player.src = "https://www.youtube-nocookie.com/embed/" +
+    encodeURIComponent(videoId) +
+    "?controls=1&playsinline=1&autoplay=0&rel=0";
+
+  player.title = "YouTube video player";
+  player.allow = "encrypted-media; picture-in-picture; fullscreen";
+  player.allowFullscreen = true;
+  player.referrerPolicy = "strict-origin-when-cross-origin";
+
+  // Replace thumbnail with the video player.
+  thumbnail.replaceWith(player);
+});
+</script>
+
 </body>
 </html>
