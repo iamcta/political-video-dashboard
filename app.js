@@ -474,50 +474,303 @@ return card;
 }
 
 // --------------------------------------------------
-// TITLE MATCHING
-// --------------------------------------------------
 
-// Normalize common word endings so election and
-// elections can match.
+/* ============================================
+   SPECTRUM NEWS NOUN MATCHING ENGINE
 
-function keyword(word) {
-  const w = word.toLowerCase();
+   Only recognized news nouns and named entities
+   are eligible for matching.
 
-  if (w.length > 5 && w.endsWith("ies")) {
-    return w.slice(0, -3) + "y";
-  }
+   Add new words to any category as needed.
+   ============================================ */
 
-  if (w.length > 5 && w.endsWith("ing")) {
-    return w.slice(0, -3);
-  }
+// 1. CURATED NEWS NOUN VOCABULARY
 
-  if (w.length > 5 && w.endsWith("ed")) {
-    return w.slice(0, -2);
-  }
+const NEWS_NOUNS = new Set([
 
-  if (w.length > 4 && w.endsWith("s") && !w.endsWith("ss")) {
-    return w.slice(0, -1);
-  }
+  // ELECTIONS AND DEMOCRACY
+  ...`election ballot voter voting primary caucus
+  recount referendum candidate campaign polling
+  pollster turnout district precinct democracy
+  electoral college inauguration impeachment
+  nomination nominee electorate registration
+  redistricting gerrymandering landslide runoff
+  midterm absentee mailin disenfranchisement
+  congresswoman congressman`.split(/\s+/),
 
-  return w;
-}
+  // GOVERNMENT AND LEGISLATION
+  ...`congress senate senator representative
+  legislature legislation bill law amendment
+  constitution constitutional governor mayor
+  presidency president administration cabinet
+  executive veto filibuster committee subpoena
+  hearing testimony oversight regulation
+  ordinance mandate governor lieutenant
+  speaker parliament ministry agency
+  shutdown budget appropriation`.split(/\s+/),
 
-function keywords(title) {
-  return [...new Set(
-    (title || "")
-      .normalize("NFKD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase()
-      .split(/[^a-z0-9]+/)
-      .filter(w => w.length >= 4 && !STOP_WORDS.has(w))
-      .map(keyword)
-  )];
-}
+  // PARTIES AND POLITICAL GROUPS
+  ...`democrat republican libertarian progressive
+  conservative liberal socialist communist
+  populist nationalist independent greenparty
+  labor union activist lobbyist lobby
+  establishment opposition coalition
+  movement grassroots ideology`.split(/\s+/),
 
-// Allow one character to be added, removed or changed.
+  // COURTS AND JUSTICE
+  ...`court judge justice lawsuit trial verdict
+  indictment prosecution prosecutor defendant
+  plaintiff conviction sentencing appeal
+  supreme supremecourt injunction ruling
+  attorney investigation investigation
+  warrant affidavit evidence jury
+  deposition hearing extradition immunity
+  pardon felony misdemeanor`.split(/\s+/),
+
+  // ECONOMY AND FINANCE
+  ...`inflation recession unemployment economy
+  tariff tariffs taxation tax deficit debt
+  spending revenue income wages salary
+  mortgage housing rent interest banking
+  bank bankruptcy stock market wallstreet
+  federalreserve fedrate bond dollar
+  currency trade imports exports
+  manufacturing industry subsidy
+  poverty wealth inequality stimulus
+  cryptocurrency bitcoin`.split(/\s+/),
+
+  // IMMIGRATION AND BORDER
+  ...`immigration immigrant migrant migration
+  border asylum deportation detention
+  citizenship refugee visa passport
+  crossing patrol ice dhs customs
+  sanctuary naturalization smuggling
+  residency enforcement`.split(/\s+/),
+
+  // HEALTH AND SOCIAL POLICY
+  ...`abortion pregnancy healthcare insurance
+  medicare medicaid hospital vaccine vaccination
+  pandemic disease disability birth
+  contraception fertility maternal
+  prescription medication pharmacy
+  epidemic addiction overdose opioid
+  fentanyl euthanasia`.split(/\s+/),
+
+  // EDUCATION AND CULTURE
+  ...`education school university college
+  tuition scholarship teacher student
+  curriculum library literacy textbook
+  homeschooling voucher campus
+  classroom graduation testing
+  censorship bookban religion church
+  gender sexuality marriage diversity
+  discrimination racism antisemitism
+  feminism transgender identity`.split(/\s+/),
+
+  // CRIME AND PUBLIC SAFETY
+  ...`crime police policing sheriff
+  arrest prison jail incarceration
+  murder homicide assault robbery
+  burglary trafficking smuggling
+  corruption fraud bribery conspiracy
+  terrorism extremist extremism
+  protest riot demonstration
+  surveillance security whistleblower
+  investigation crackdown`.split(/\s+/),
+
+  // WAR AND FOREIGN POLICY
+  ...`war warfare invasion military
+  army navy airforce marine
+  defense missile drone artillery
+  bomb bombing nuclear weapon
+  weapons ceasefire treaty diplomacy
+  diplomat embassy sanctions nato
+  occupation conflict blockade
+  hostage prisoner casualty
+  battlefield alliance sovereignty
+  genocide insurgency humanitarian
+  intelligence espionage`.split(/\s+/),
+
+  // ENVIRONMENT AND ENERGY
+  ...`climate warming emissions carbon
+  pollution environment energy
+  electricity grid renewable solar
+  wind coal oil gas petroleum
+  pipeline drilling fracking
+  wildfire drought hurricane
+  tornado flooding flood earthquake
+  disaster conservation water
+  drought agriculture farming`.split(/\s+/),
+
+  // TECHNOLOGY AND MEDIA
+  ...`technology artificialintelligence
+  ai algorithm censorship
+  socialmedia tiktok youtube
+  facebook instagram xplatform
+  internet privacy data
+  encryption cybersecurity
+  hacking hacker leak
+  misinformation disinformation
+  propaganda journalism journalist
+  media newspaper broadcaster
+  streaming podcast`.split(/\s+/),
+
+  // COUNTRIES AND GEOGRAPHIC ENTITIES
+  ...`america usa unitedstates
+  ukraine russia china taiwan
+  israel palestine gaza iran iraq
+  syria lebanon yemen
+  mexico canada cuba venezuela
+  europe germany france britain
+  india pakistan northkorea
+  southkorea afghanistan
+  texas california florida
+  newyork washington arizona
+  georgia pennsylvania michigan
+  wisconsin ohio nevada
+  minnesota colorado illinois`.split(/\s+/),
+
+  // PROMINENT POLITICAL FIGURES
+  // Update this category as political figures change.
+  ...`trump vance harris biden
+  obama clinton bush
+  sanders pelosi schumer
+  jeffries johnson aoc ocasio
+  desantis abbott newsom
+  cruz paxton talarico
+  musk thiel bezos
+  putin zelensky netanyahu
+  xi jinping macron
+  merz starmer
+  mcconnell rubio
+  hegseth kennedy`.split(/\s+/)
+
+]);
+
+
+// 2. VARIATIONS AND ALIASES
+// Maps alternate forms to a single canonical noun.
+
+const NOUN_ALIASES = {
+
+  // Elections
+  elections: "election",
+  electoral: "election",
+  ballots: "ballot",
+  voters: "voter",
+  candidates: "candidate",
+  primaries: "primary",
+  caucuses: "caucus",
+  midterms: "midterm",
+
+  // Government
+  senators: "senator",
+  lawmakers: "legislation",
+  laws: "law",
+  bills: "bill",
+  governors: "governor",
+  presidents: "president",
+  administrations: "administration",
+
+  // Political groups
+  democrats: "democrat",
+  republicans: "republican",
+  gop: "republican",
+  progressives: "progressive",
+  conservatives: "conservative",
+  liberals: "liberal",
+  socialists: "socialist",
+
+  // Courts
+  judges: "judge",
+  lawsuits: "lawsuit",
+  indictments: "indictment",
+  convictions: "conviction",
+  prosecutors: "prosecutor",
+  scotus: "supremecourt",
+
+  // Economy
+  taxes: "tax",
+  taxed: "tax",
+  tariffs: "tariff",
+  prices: "inflation",
+  mortgages: "mortgage",
+  banks: "bank",
+  layoffs: "unemployment",
+
+  // Immigration
+  immigrants: "immigrant",
+  migrants: "migrant",
+  deportations: "deportation",
+  refugees: "refugee",
+  visas: "visa",
+
+  // Health
+  abortions: "abortion",
+  vaccines: "vaccine",
+  vaccinations: "vaccination",
+  hospitals: "hospital",
+  opioids: "opioid",
+
+  // Education
+  schools: "school",
+  teachers: "teacher",
+  students: "student",
+  universities: "university",
+  vouchers: "voucher",
+
+  // Crime
+  arrests: "arrest",
+  prisons: "prison",
+  murders: "murder",
+  protests: "protest",
+  protesters: "protest",
+  crimes: "crime",
+
+  // Foreign policy
+  wars: "war",
+  invasions: "invasion",
+  missiles: "missile",
+  drones: "drone",
+  sanctions: "sanctions",
+  treaties: "treaty",
+
+  // Environment
+  hurricanes: "hurricane",
+  floods: "flood",
+  wildfires: "wildfire",
+  emissions: "emissions",
+
+  // Geography
+  ukrainian: "ukraine",
+  ukrainians: "ukraine",
+  russian: "russia",
+  russians: "russia",
+  chinese: "china",
+  israeli: "israel",
+  israelis: "israel",
+  palestinian: "palestine",
+  palestinians: "palestine",
+  american: "america",
+  americans: "america",
+  us: "usa",
+  unitedstates: "usa",
+
+  // People
+  donald: "trump",
+  zelenskyy: "zelensky",
+  ocasio-cortez: "ocasio",
+  aoc: "ocasio"
+};
+
+
+// 3. SPELLING SIMILARITY
+// Accept one insertion, deletion, or replacement.
 
 function oneEditApart(a, b) {
-  if (Math.abs(a.length - b.length) > 1) return false;
+  if (Math.abs(a.length - b.length) > 1) {
+    return false;
+  }
 
   let i = 0;
   let j = 0;
@@ -530,7 +783,11 @@ function oneEditApart(a, b) {
       continue;
     }
 
-    if (++edits > 1) return false;
+    edits++;
+
+    if (edits > 1) {
+      return false;
+    }
 
     if (a.length > b.length) {
       i++;
@@ -545,67 +802,117 @@ function oneEditApart(a, b) {
   return edits + (a.length - i) + (b.length - j) <= 1;
 }
 
-function matchingScore(first, second) {
-  const a = keywords(first.title);
-  const b = keywords(second.title);
 
-  let score = 0;
+// 4. NORMALIZE NEWS NOUNS
 
-  for (const word of a) {
-    for (const candidate of b) {
-      if (word === candidate) {
-        score += 3;
-        break;
-      }
+const NEWS_NOUN_ARRAY = [...NEWS_NOUNS];
 
-      if (
-        word.length >= 6 &&
-        candidate.length >= 6 &&
-        oneEditApart(word, candidate)
-      ) {
-        score += 1;
-        break;
-      }
+function normalizeNewsNoun(word) {
+  const raw = word.toLowerCase();
+
+  // Explicit aliases first
+  if (NOUN_ALIASES[raw]) {
+    return NOUN_ALIASES[raw];
+  }
+
+  // Exact recognized noun
+  if (NEWS_NOUNS.has(raw)) {
+    return raw;
+  }
+
+  // Common plural endings
+  const variants = [];
+
+  if (raw.endsWith("ies")) {
+    variants.push(raw.slice(0, -3) + "y");
+  }
+
+  if (raw.endsWith("es")) {
+    variants.push(raw.slice(0, -2));
+  }
+
+  if (raw.endsWith("s") && !raw.endsWith("ss")) {
+    variants.push(raw.slice(0, -1));
+  }
+
+  for (const variant of variants) {
+    if (NEWS_NOUNS.has(variant)) {
+      return variant;
+    }
+
+    if (NOUN_ALIASES[variant]) {
+      return NOUN_ALIASES[variant];
     }
   }
 
-  return score;
-}
-
-// Find the best available matching video for one
-// ideological column. Any positive score qualifies.
-
-function pickMatch(anchor, band, entries, used) {
-  let best = null;
-  let bestScore = 0;
-
-  for (const entry of entries) {
-    if (used.has(entry.index)) continue;
-    if (bandFor(entry.video) !== band) continue;
-
-    const gap = Math.abs(
-      videoDate(anchor.video) - videoDate(entry.video)
+  // Fuzzy match only longer, distinctive nouns.
+  // Require exactly one candidate to avoid ambiguity.
+  if (raw.length >= 6) {
+    const candidates = NEWS_NOUN_ARRAY.filter(noun =>
+      noun.length >= 6 &&
+      noun[0] === raw[0] &&
+      oneEditApart(raw, noun)
     );
 
-    // Avoid linking videos published more than
-    // seven days apart when both dates are known.
-    if (
-      videoDate(anchor.video) &&
-      videoDate(entry.video) &&
-      gap > 7 * 24 * 60 * 60 * 1000
-    ) {
-      continue;
-    }
-
-    const score = matchingScore(anchor.video, entry.video);
-
-    if (score > bestScore) {
-      best = entry;
-      bestScore = score;
+    if (candidates.length === 1) {
+      return candidates[0];
     }
   }
 
-  return best;
+  // Not recognized as a news noun.
+  return null;
+}
+
+
+// 5. EXTRACT RECOGNIZED NOUNS FROM A TITLE
+
+function keywords(title) {
+  const normalizedTitle = (title || "")
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/\bwhite house\b/g, "whitehouse")
+    .replace(/\bsupreme court\b/g, "supremecourt")
+    .replace(/\bunited states\b/g, "unitedstates")
+    .replace(/\bartificial intelligence\b/g, "artificialintelligence")
+    .replace(/\bsocial media\b/g, "socialmedia")
+    .replace(/\bnew york\b/g, "newyork");
+
+  const words = normalizedTitle
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean);
+
+  const found = new Set();
+
+  for (const word of words) {
+    const noun = normalizeNewsNoun(word);
+
+    if (noun) {
+      found.add(noun);
+    }
+  }
+
+  return [...found];
+}
+
+
+// 6. SCORE TWO TITLES
+// One shared recognized noun is sufficient.
+// Additional shared nouns increase confidence.
+
+function matchingScore(first, second) {
+  const firstNouns = new Set(keywords(first.title));
+  const secondNouns = new Set(keywords(second.title));
+
+  let matches = 0;
+
+  for (const noun of firstNouns) {
+    if (secondNouns.has(noun)) {
+      matches++;
+    }
+  }
+
+  return matches;
 }
 
 // --------------------------------------------------
